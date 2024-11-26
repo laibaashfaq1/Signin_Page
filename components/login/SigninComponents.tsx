@@ -1,6 +1,6 @@
 'use client';
 
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import React, { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 
@@ -17,13 +17,24 @@ export default function SignInPage() {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      setMessage("Signing out...");
+      await signOut({ callbackUrl: '/' });
+    } catch (err) {
+      console.error("Sign out error:", err);
+      setMessage("Error signing out. Please try again.");
+    }
+  };
+
   return (
     <div className="relative h-screen bg-gray-50">
 
       {/* Sign-out Button */}
       <div className="absolute top-4 right-4">
         <button
-          onClick={() => alert('Successfuly Signout')}
+          type="button"
+          onClick={handleSignOut}
           className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
         >
           Sign Out
